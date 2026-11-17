@@ -1,0 +1,82 @@
+### =================================================================
+### SIMPLIFICADO PAY - SCRIPT DE TESTES HTTP
+### =================================================================
+
+@baseUrl = http://localhost:8080
+
+### 1. Criar Usuário Comum (Payer) com Saldo Inicial de R$ 500,00
+# @name createCommonUser
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "fullName": "Luiz Dev Comum",
+  "document": "12312312312",
+  "email": "luiz.comum2@email.com",
+  "password": "senhaSegura123",
+  "userType": "COMMON",
+  "wallet": {
+    "balance": 500.00
+  }
+}
+
+###
+
+### 2. Criar Usuário Lojista (Payee)
+# @name createMerchantUser
+POST {{baseUrl}}/users
+Content-Type: application/json
+
+{
+  "fullName": "Loja de Eletronicos LTDA",
+  "document": "98765432000199",
+  "email": "contato@loja.com",
+  "password": "senhaLojista456",
+  "userType": "MERCHANT",
+  "balance": 0.00
+}
+
+###
+
+### 3. Cenário de Sucesso: Transferência de Comum para Lojista
+# @name transferSuccess
+POST {{baseUrl}}/transfer
+Content-Type: application/json
+
+{
+  "value": 100.0,
+  "payer": 3,
+  "payee": 2
+}
+
+###
+
+### 4. Cenário de Erro: Lojista tentando enviar dinheiro (Não permitido)
+# @name transferErrorMerchantPayer
+POST {{baseUrl}}/transfer
+Content-Type: application/json
+
+{
+  "value": 50.0,
+  "payer": 2,
+  "payee": 1
+}
+
+###
+
+### 5. Cenário de Erro: Usuário comum sem saldo suficiente
+# @name transferErrorNoBalance
+POST {{baseUrl}}/transfer
+Content-Type: application/json
+
+{
+  "value": 9999.0,
+  "payer": 1,
+  "payee": 2
+}
+
+###
+
+### 6. Listar todos os usuários e verificar saldos atuais
+GET {{baseUrl}}/users
+Accept: application/json

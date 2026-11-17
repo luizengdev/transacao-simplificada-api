@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: transação-simplificada-api
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/simplificado_db
+    username: luizengdev
+    password: password123
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operations-sorter: alpha
+    tags-sorter: alpha
+
+server:
+  port: 8080

@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  postgres-db:
+    image: postgres:15-alpine
+    container_name: simplificado_pay_db
+    environment:
+      POSTGRES_USER: luizengdev
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: simplificado_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - wallet_transactions_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+volumes:
+  wallet_transactions_data:
+
+networks:
+  app-network:
+    driver: bridge
